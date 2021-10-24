@@ -19,12 +19,21 @@ private:
 	vector <Team> Teams;
 public:
 	Leage(int TeamsNumber = 14) {
-		for (int i = 0; i < TeamsNumber; i++) {
+		Teams.resize(TeamsNumber);
+		
+	}
+
+	friend ostream& operator<<(ostream& out, const Team elem);
+	friend istream& operator>>(istream& in, Team elem);
+	friend void bubbleSort(vector<Team> arrForSort);
+	//friend int StatsComparing(vector<Team>  Teams);
+	friend void MakeMatch(Team& team1, Team& team2);
+
+	void setTeamsInfo() {
+		for (int i = 0; i < Teams.size(); i++) {
 			cin >> Teams[i];
 		}
 	}
-	friend void bubbleSort(vector<Team> arrForSort);
-	//friend int StatsComparing(vector<Team>  Teams);
 	void getLeageInfo() {
 		bubbleSort(Teams);
 		for (int i = 0; i < Teams.size(); i++) {
@@ -32,10 +41,17 @@ public:
 		}
 	}
 	void LeageSimulation() {
-		
+		int j = 0;
+		for (int i = 0; i < Teams.size() - 2; i++) {
+			if (j == Teams.size()) {
+				j -= Teams.size();
+			}
+			MakeMatch(Teams[j], Teams[j + 1]);
+			j++;
+		}
 	}
-	friend ostream& operator<<(ostream& out, Team elem);
-	friend istream& operator>>(istream& in, Team elem);
+	
+	
 
 };
 //int StatsComparing(Team TeamOne, Team TeamTwo) {
@@ -53,6 +69,12 @@ public:
 //	}
 //	cout << per;
 //}
+void MakeMatch(Team& team1, Team& team2) {
+	int Result = rand() % 9;
+	if (Result >= 0 && Result < 3) { team1.wins++; team2.loses++; }
+	else if (Result >= 3 && Result < 6) { team1.draws++; team2.draws++; }
+	else if (Result >= 6 && Result < 9) { team1.loses++; team2.wins++; }
+}
 void bubbleSort(vector<Team> arrForSort) {
 	int buff = 0;
 	for (int i = 0; i < arrForSort.size() - 1; i++) {
@@ -66,14 +88,19 @@ void bubbleSort(vector<Team> arrForSort) {
 		}
 	}
 }
-ostream& operator<<(ostream& out, Team elem) {
-	out << elem.name << " | wins: " << elem.wins << " | draws: " << elem.draws << " | loses: ";
+ostream& operator<<(ostream& out, const Team elem) {
+	out << elem.name;
+	out << " | wins: ";
+	out << elem.wins;
+	out << " | draws: ";
+	out << elem.draws;
+	out << " | loses: ";
 	return out;
 }
 istream& operator>>(istream& in, Team elem) {
 	cout << "enter team name: ";  in >> elem.name;
 
-	string UserAnswer;
+	/*string UserAnswer;
 	cout << "enter randomly? "; cin >> UserAnswer;
 	if (UserAnswer == "yes") {
 		int Ran = rand() % 99; elem.attack = Ran;
@@ -82,10 +109,14 @@ istream& operator>>(istream& in, Team elem) {
 	else{
 		cout << "enter attack: "; in >> elem.attack;
 		cout << "enter defence: "; in >> elem.defence;
-	}
+	}*/
 	return in;
 }
 int main() {
+	Leage UkranianLeage;
+	UkranianLeage.getLeageInfo(); cout << endl;
+	UkranianLeage.LeageSimulation();
+	UkranianLeage.getLeageInfo();
 	/*cout << "test" << endl;
 	vector<int> mass;
 	mass.resize(4);
