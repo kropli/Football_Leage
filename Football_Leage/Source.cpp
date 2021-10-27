@@ -24,14 +24,14 @@ public:
 	}
 
 	friend ostream& operator<<(ostream& out, const Team elem);
-	friend istream& operator>>(istream& in, Team elem);
 	friend void bubbleSort(vector<Team> arrForSort);
 	//friend int StatsComparing(vector<Team>  Teams);
 	friend void MakeMatch(Team& team1, Team& team2);
 
 	void setTeamsInfo() {
 		for (int i = 0; i < Teams.size(); i++) {
-			cin >> Teams[i];
+			cin >> Teams[i].name;
+			// add detailed info
 		}
 	}
 	void getLeageInfo() {
@@ -97,21 +97,7 @@ ostream& operator<<(ostream& out, const Team elem) {
 	out << " | loses: ";
 	return out;
 }
-istream& operator>>(istream& in, Team elem) {
-	cout << "enter team name: ";  in >> elem.name;
 
-	/*string UserAnswer;
-	cout << "enter randomly? "; cin >> UserAnswer;
-	if (UserAnswer == "yes") {
-		int Ran = rand() % 99; elem.attack = Ran;
-		Ran = rand() % 99;  elem.defence = Ran;
-	}
-	else{
-		cout << "enter attack: "; in >> elem.attack;
-		cout << "enter defence: "; in >> elem.defence;
-	}*/
-	return in;
-}
 int main() {
 	Leage UkranianLeage;
 	UkranianLeage.getLeageInfo(); cout << endl;
